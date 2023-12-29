@@ -1,0 +1,210 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildcard Conversations</title>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #10101c;
+            color: #1F1F33;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: all 0.3s;
+        }
+
+        .card {
+            background: #1F1F33;
+            border-radius: 10px;
+            padding: 3%;
+            width: 80%;
+            min-width: 300px;
+            height: 60%;
+            box-shadow: 0px 0px 50px 0.5px #e1ff67;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .card p {
+            color: #CCFF00;
+            font-size: 3em;
+            margin: 1em;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 40px;
+            background-color: #CCFF00;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #1F1F33;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #faffe4;
+        }
+
+        @media (max-width: 768px) {
+            .card p {
+                font-size: 1.5em;
+                margin: 1em;
+            }
+            button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <p id="question">...</p>
+    </div>
+    <button onclick="nextQuestion()">Next Question</button>
+
+    <script>
+        let currentQuestionIndex = -1;
+        const questions = [
+        "If you had to describe your startup's journey using a song title, what would it be?",
+"Who's your entrepreneurial crush and why?",
+"Which company would you fanboy/fangirl over if they reached out for a collaboration?",
+"What's that one 'Eureka!' moment you had while showering or lying in bed?",
+"Spill the beans: Which app on your phone do you use way too much?",
+"What crazy or wild prediction did someone make about your startup that came true (or you wish would)?",
+"Coffee or tea? And how many cups to fuel your startup hustle?",
+"Ever had a weird or funny customer feedback? Share the story!",
+"Which TV show or movie character do you secretly believe would be an epic founder?",
+"Any 'happy accidents' or mistakes that surprisingly turned out in your favor?",
+"What's the most bizarre place or situation where you had a business call?",
+"If you could have any fictional character be your startup's brand ambassador, who'd it be?",
+"Share a meme or GIF that best encapsulates your entrepreneurial mood this week.",
+"What's a growth hack or trick you tried and thought, 'Wow, why didn't I do this sooner?'",
+"Got any startup superstitions? Like lucky socks for pitch days?",
+"What's the quirkiest or funniest name you ever considered for a product or feature?",
+"Have you ever taken inspiration from something totally unrelated to your industry, like a video game or a dream?",
+"Share a laugh- what's a recent work-related blooper or goof-up?",
+"If you were to host a podcast about the unseen, informal side of startups, what would you call it?",
+"What's a side hobby that unexpectedly helped you in your startup journey?",
+"If your startup were an animal, what would it be and why?",
+"Ever had a wild fan moment because of something your startup achieved?",
+"If there's one snack or dish that fuels late-night work sessions, what is it?",
+"Share a 'behind-the-scenes' fun fact about your team or workspace.",
+"If you could take a one-week break from your startup and swap roles with any celebrity, who would it be?",
+"Did any childhood game or toy indirectly spark your entrepreneurial spirit?",
+"How would you describe your startup using only emojis?",
+"Which adventurous or wacky marketing idea do you wish you could try, budget and feasibility aside?",
+"Is there a superstition in your industry that you find amusing or secretly believe in?",
+"Have you ever celebrated a small win or milestone with a peculiar or unique ritual?",
+"Any fun or quirky traditions your team has adopted since the startup's inception?",
+"What's your go-to karaoke song after a successful pitch or meeting?",
+"Describe a light-hearted moment or joke you shared with an investor or partner.",
+"If there was a sitcom about your startup's daily life, what would its title be?",
+"Which pop culture catchphrase best describes your startup's vibe?",
+"Ever had a “fan moment” when someone recognized or appreciated your startup unexpectedly?",
+"Share an anecdote about the most unique or memorable feedback you received.",
+"If your startup journey was a rollercoaster, what would be its name?",
+"What’s a playful debate or ongoing joke in your office?",
+"If you could choose a mascot for your startup from any fictional universe, who or what would it be?",
+"What's your favorite 'work hack' to break the monotony or boost creativity?",
+"Share a 'happy accident' in your startup journey.",
+"What's the most creative or out-of-the-box tactic you've used to gain traction or users?",
+"Describe a funny misunderstanding or misconception people have had about what you do.",
+"Have you ever taken a weird or unexpected source of inspiration for a product or strategy?",
+"What's a light-hearted or fun challenge you'd pose to another founder in the room?",
+"If you had to describe your entrepreneurial journey using only movie titles, which ones come to mind?",
+"What's a personal hobby or interest that unexpectedly gave you insight or inspiration for your startup?",
+"Share a memorable 'only in the world of startups' moment you've experienced.",
+"If your startup's journey was turned into a board game, what challenges and rewards would players encounter?",
+"What's a hype or trend you regret jumping onto?",
+"Share a time when you felt like throwing in the towel. What kept you going?",
+"Ever had a 'facepalm' moment with an investor or major client?",
+"What's a mistake you made that, in hindsight, you can laugh about now?",
+"Ever had a product launch or event that went totally sideways? What happened?",
+"What was your most cringe-worthy pitch or presentation moment?",
+"Share a decision you wish you could get a do-over on.",
+"Have you ever hired someone you later realized was completely wrong for your team? How did you handle it?",
+"What's a piece of feedback or criticism that stung but you're grateful for now?",
+"Ever had a partnership or collaboration fall apart? What's the story?",
+"Was there a time when you felt out of your depth or like an imposter?",
+"What was your toughest 'no' from an investor or potential partner?",
+"Have you ever had a moment where you questioned the entire direction or purpose of your startup?",
+"What's a marketing or PR blunder you experienced?",
+"Share an instance where you had to let go of a product or feature you were personally attached to.",
+"Ever faced a major setback right before a critical milestone or event?",
+"Describe a challenge that kept you up at night.",
+"Was there ever a time when you felt like the odd one out or excluded in an industry event or gathering?",
+"Have you ever had to manage a crisis or damage control situation?",
+"Share a time when you felt like everything that could go wrong, did.",
+"Ever made an embarrassing tech or product glitch that had unexpected consequences?",
+"Have you had moments of doubt where you wondered if the startup world was really for you?",
+"What's a cultural or team challenge you didn't anticipate?",
+"Describe a time when you felt overwhelmed by the pace of the startup world.",
+"Have you ever faced ethical dilemmas that made you question a decision?",
+"What's an unpopular opinion you have about the startup ecosystem?",
+"Ever received unexpected backlash or controversy for a decision or campaign?",
+"Describe a time when you had to navigate office politics or drama.",
+"What's an initial business model or strategy you had to drastically overhaul?",
+"Have you ever faced significant personal sacrifices or strain due to your startup journey?",
+"Describe an instance where you felt outpaced or out-innovated by competitors.",
+"What's a financial mistake or oversight you wish you could undo?",
+"Have you ever been blindsided by a change in the industry or market?",
+"What was the toughest feedback session or team meeting you've had?",
+"Ever faced a situation where you felt like you were compromising your vision or values for growth?",
+"Share a 'never again' moment from your entrepreneurial journey.",
+"How did you handle a moment when a trusted team member or partner let you down?",
+"Ever faced challenges or bias due to age, gender, or background in the startup world?",
+"What's a resource or investment you sunk time/money into that didn't pan out?",
+"Describe a time when you felt the weight or loneliness of leadership.",
+"Have you faced significant burnout or mental health challenges on this journey?",
+"Ever had a moment of miscommunication that spiraled out of control?",
+"Was there ever a moment you missed a critical opportunity or connection?",
+"How did you handle a situation where you felt like you lost trust or credibility?",
+"Describe an instance when you felt significantly behind or late in your startup's timeline.",
+"What's a commitment or promise you struggled to fulfill?",
+"Ever had a key team member or co-founder walk away at a critical time?",
+"Describe a moment when you felt out of touch with your target audience or community.",
+"Share a time when you faced significant external skepticism or doubt.",
+"What's an initial goal or aspiration you had to let go of or adjust drastically?"
+        ];
+        const usedIndexes = [];
+
+        function pickRandomQuestion() {
+            if (usedIndexes.length === questions.length) usedIndexes.length = 0; 
+
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * questions.length);
+            } while (usedIndexes.includes(randomIndex));
+
+            usedIndexes.push(randomIndex);
+            currentQuestionIndex = randomIndex;
+
+            return questions[randomIndex];
+        }
+
+        document.getElementById("question").innerText = pickRandomQuestion();
+
+        function nextQuestion() {
+            // Animation (quick fade-out and fade-in for simplicity)
+            document.body.style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById("question").innerText = pickRandomQuestion();
+                document.body.style.opacity = 1;
+            }, 300);
+        }
+        
+        document.querySelector('.card').addEventListener('click', nextQuestion);
+    </script>
+</body>
